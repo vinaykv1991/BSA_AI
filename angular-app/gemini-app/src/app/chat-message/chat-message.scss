@@ -1,0 +1,112 @@
+@use '@angular/material' as mat;
+// Assuming custom-theme.scss is in src/ and contains $novagem-warn-palette
+// Adjust path if your theme file is elsewhere or named differently (e.g., ../../custom-theme)
+// For standalone components, relative paths from the component's SCSS file are standard.
+// If custom-theme.scss is in src/, then ../../custom-theme.scss should work from src/app/chat-message/
+@use '../../custom-theme' as theme; // Access custom theme variables
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.message-bubble {
+  display: flex;
+  gap: 12px;
+  padding: 8px 0;
+  max-width: 90%;
+  align-items: flex-start;
+
+  &.user-message {
+    margin-left: auto;
+    flex-direction: row-reverse;
+    .message-content-wrapper { align-items: flex-end; }
+    .message-content {
+      background-color: #A0D2DB; // Light Teal
+      color: #000000;
+      border-radius: 16px 16px 4px 16px;
+    }
+  }
+
+  &.ai-message {
+    margin-right: auto;
+    flex-direction: row;
+    .message-content-wrapper { align-items: flex-start; }
+    .message-content {
+      background-color: #E8E8E8; // Light Grey
+      color: #000000;
+      border-radius: 16px 16px 16px 4px;
+    }
+
+    // Error styling for AI messages
+    &.error-message .message-content {
+      background-color: mat.get-color-from-palette(theme.$novagem-warn-palette, 100); // Lightest warn color
+      // border-left: 4px solid mat.get-color-from-palette(theme.$novagem-warn-palette, 500); // Darker warn accent
+      color: mat.get-color-from-palette(theme.$novagem-warn-palette, 700); // Dark warn text
+      // Or, if you prefer a more subtle error indication:
+      // border: 1px solid mat.get-color-from-palette(theme.$novagem-warn-palette, 400);
+    }
+  }
+}
+
+.avatar-container { padding-top: 4px; }
+.avatar-placeholder {
+  width: 40px; height: 40px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  mat-icon { font-size: 24px; width: 24px; height: 24px; }
+}
+
+.message-content-wrapper {
+  display: flex; flex-direction: column;
+  max-width: calc(100% - 52px);
+}
+.message-content {
+  padding: 10px 14px;
+  word-wrap: break-word; overflow-wrap: break-word; hyphens: auto;
+}
+.text-content p { margin-top: 0; margin-bottom: 8px; &:last-child { margin-bottom: 0; } }
+
+.code-block-container {
+  background-color: #2d2d2d; color: #f0f0f0;
+  border-radius: 4px; margin-top: 8px;
+  position: relative; overflow: hidden;
+  .copy-code-button { position: absolute; top: 4px; right: 4px; z-index: 1; }
+  pre { margin: 0; padding: 12px; overflow-x: auto; border-radius: 4px;
+    code.code-highlight { font-family: 'Fira Code', 'Courier New', monospace; font-size: 0.9em; white-space: pre; }
+  }
+}
+
+.timestamp {
+  font-size: 0.75em; color: rgba(0,0,0,0.54);
+  margin-top: 8px; text-align: inherit;
+}
+.ai-message .timestamp { color: rgba(0,0,0,0.54); }
+.user-message .timestamp { color: rgba(0,0,0,0.7); }
+
+.interaction-icons {
+  display: flex; gap: 4px; margin-top: 8px;
+  button { width: 32px; height: 32px; line-height: 32px;
+    mat-icon { font-size: 18px; width: 18px; height: 18px; }
+  }
+}
+
+// Dark theme adjustments
+:host-context(body.novagem-dark-theme) .message-bubble {
+  &.user-message .message-content {
+    background-color: mat.get-color-from-palette(theme.$novagem-primary-palette, 700); // Using primary dark for user
+    color: mat.get-color-from-palette(theme.$novagem-primary-palette, '700-contrast');
+  }
+  &.ai-message .message-content {
+    background-color: mat.get-color-from-palette(mat.$grey-palette, 700);
+    color: #ffffff;
+  }
+  &.ai-message.error-message .message-content {
+    background-color: mat.get-color-from-palette(theme.$novagem-warn-palette, 800); // Darker warn background
+    color: mat.get-color-from-palette(theme.$novagem-warn-palette, '800-contrast'); // Contrast for darker warn
+    // border-left-color: mat.get-color-from-palette(theme.$novagem-warn-palette, 300); // Lighter warn accent for dark theme
+  }
+  &.ai-message .timestamp, &.user-message .timestamp { color: rgba(255,255,255,0.7); }
+  .code-block-container { background-color: #222222; color: #e0e0e0; }
+}
+```

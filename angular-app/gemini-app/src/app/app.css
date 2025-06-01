@@ -1,0 +1,56 @@
+/* Styles for app.component */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh; /* Full viewport height */
+  /* The global header and padding for it have been removed as app-chat-interface now handles its own header
+     and is intended to be the main view. */
+}
+
+/* This class is applied to app-chat-interface in app.component.html */
+.full-height-component {
+  height: 100%;
+  display: block; /* Or flex, depending on the component's internal structure */
+}
+
+/* Old styles that are no longer directly applicable if app-header and app-content are removed from app.component.html: */
+/*
+.app-header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.app-content {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding-top: 64px;
+  display: flex;
+  flex-direction: column;
+  padding-left: 16px;
+  padding-right: 16px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 600px) {
+  .app-content {
+    padding-top: 56px;
+  }
+}
+
+app-question-form, app-answer-display {
+  width: 100%;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  padding-bottom: 16px;
+}
+
+router-outlet {
+  display: block;
+  width: 100%;
+}
+*/

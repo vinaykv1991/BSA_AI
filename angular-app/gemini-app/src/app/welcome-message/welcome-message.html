@@ -1,0 +1,25 @@
+<div class="welcome-container">
+  <div class="greeting-header">
+    <mat-icon class="greeting-icon" svgIcon="novagem-logo-mono"></mat-icon> <!-- Placeholder for future custom icon -->
+    <h1>Hi there! I'm NovaGem.</h1>
+    <p>Your AI assistant powered by Gemini. Ask me anything!</p>
+  </div>
+
+  <div class="example-prompts-container">
+    <p class="prompts-title">Here are a few ideas to get you started:</p>
+    <mat-chip-listbox aria-label="Example prompts" class="example-prompts-list">
+      <mat-chip-option (click)="onPromptClick('Explain quantum computing simply')">
+        Explain quantum computing simply
+      </mat-chip-option>
+      <mat-chip-option (click)="onPromptClick('Write a poem about the ocean')">
+        Write a poem about the ocean
+      </mat-chip-option>
+      <mat-chip-option (click)="onPromptClick('Suggest healthy breakfast ideas')">
+        Suggest healthy breakfast ideas
+      </mat-chip-option>
+      <mat-chip-option (click)="onPromptClick('What are the latest AI trends?')">
+        What are the latest AI trends?
+      </mat-chip-option>
+    </mat-chip-listbox>
+  </div>
+</div>

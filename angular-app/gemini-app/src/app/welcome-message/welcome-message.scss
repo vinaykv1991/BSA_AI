@@ -1,0 +1,124 @@
+@use '@angular/material' as mat;
+
+:host {
+  display: flex; // Allows the component to be centered if its parent is a flex container
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 24px;
+  height: 100%; // Try to take full height of its container (e.g., chat-area.empty)
+  box-sizing: border-box;
+}
+
+.welcome-container {
+  max-width: 600px; // Max width for the content
+}
+
+.greeting-header {
+  margin-bottom: 32px;
+
+  .greeting-icon {
+    font-size: 64px; // Placeholder for actual SVG icon size
+    width: 64px;
+    height: 64px;
+    margin-bottom: 16px;
+    // color: mat.get-color-from-palette(mat.$grey-palette, 400); // Example color
+    // For now, let's assume we will use a mat-icon with a default color or a custom SVG
+  }
+
+  h1 {
+    font-size: 2.5em; // Larger font for main greeting
+    font-weight: 500;
+    margin-bottom: 8px;
+    // color: mat.get-color-from-palette(theme.$novagem-primary-palette, 500); // Use primary theme color
+  }
+
+  p {
+    font-size: 1.1em;
+    // color: mat.get-color-from-palette(mat.$grey-palette, 700); // Softer color for subtitle
+    line-height: 1.5;
+  }
+}
+
+.example-prompts-container {
+  width: 100%;
+}
+
+.prompts-title {
+  font-size: 0.95em;
+  margin-bottom: 12px;
+  // color: mat.get-color-from-palette(mat.$grey-palette, 600);
+  font-weight: 500;
+}
+
+.example-prompts-list {
+  display: flex;
+  flex-wrap: wrap; // Allow chips to wrap on smaller screens
+  justify-content: center; // Center chips
+  gap: 12px; // Space between chips
+
+  mat-chip-option {
+    // background-color: mat.get-color-from-palette(mat.$grey-palette, 100);
+    // color: mat.get-color-from-palette(mat.$grey-palette, 800);
+    // Use theme variables for chip colors for better adaptability
+    // background-color: var(--mat-standard-chip-background-color);
+    // color: var(--mat-standard-chip-text-color);
+
+    // Custom styling for chips to make them more prominent
+    border-radius: 16px; // Softer corners
+    // box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    padding: 10px 16px; // More padding
+
+    &:hover {
+      // background-color: mat.get-color-from-palette(mat.$grey-palette, 200);
+      // box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+    }
+
+    &.mat-mdc-chip-selected { // When a chip is selected (clicked)
+      // background-color: mat.get-color-from-palette(theme.$novagem-accent-palette, 100);
+      // color: mat.get-color-from-palette(theme.$novagem-accent-palette, 700);
+    }
+  }
+}
+
+// Dark theme adjustments
+:host-context(body.novagem-dark-theme) {
+  .greeting-header {
+    h1 {
+      // color: mat.get-color-from-palette(theme.$novagem-primary-palette, 300); // Lighter primary for dark
+    }
+    p {
+      // color: mat.get-color-from-palette(mat.$grey-palette, 400);
+    }
+    .greeting-icon {
+      // color: mat.get-color-from-palette(mat.$grey-palette, 300);
+    }
+  }
+
+  .prompts-title {
+    // color: mat.get-color-from-palette(mat.$grey-palette, 500);
+  }
+
+  .example-prompts-list {
+    mat-chip-option {
+      // background-color: mat.get-color-from-palette(mat.$grey-palette, 700);
+      // color: mat.get-color-from-palette(mat.$grey-palette, 100);
+      &:hover {
+        // background-color: mat.get-color-from-palette(mat.$grey-palette, 600);
+      }
+      // &.mat-mdc-chip-selected {
+      //   background-color: mat.get-color-from-palette(theme.$novagem-accent-palette, 700);
+      //   color: mat.get-color-from-palette(theme.$novagem-accent-palette, 100);
+      // }
+    }
+  }
+}
+
+// Fallback for greeting icon if SVG isn't loaded or for placeholder
+.greeting-icon::before {
+  content: '✨'; // Sparkle emoji as a simple default
+  font-size: 64px;
+  display: inline-block;
+}
+```

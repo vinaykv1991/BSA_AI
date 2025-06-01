@@ -1,0 +1,47 @@
+<div class="chat-container">
+  <mat-toolbar color="primary" class="chat-header">
+    <button mat-icon-button aria-label="Open settings" routerLink="/settings"> <!-- Updated: routerLink -->
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="chat-title">NovaGem</span>
+    <span class="spacer"></span>
+    <button mat-icon-button aria-label="New Chat"> <!-- Placeholder for new chat functionality -->
+      <mat-icon>add_comment</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <div class="chat-area" #chatArea [class.empty]="messages.length === 0 && !isLoading">
+    <ng-container *ngIf="messages.length === 0 && !isLoading">
+      <app-welcome-message (examplePromptClicked)="handleExamplePrompt($event)"></app-welcome-message>
+    </ng-container>
+
+    <ng-container *ngIf="messages.length > 0 || isLoading">
+      <app-chat-message *ngFor="let msg of messages" [message]="msg"></app-chat-message>
+      <app-typing-indicator *ngIf="isLoading"></app-typing-indicator>
+    </ng-container>
+  </div>
+
+  <div class="input-area">
+    <button mat-icon-button aria-label="Attach file" class="attach-button">
+      <mat-icon>attach_file</mat-icon>
+    </button>
+    <mat-form-field class="chat-input-field" appearance="outline">
+      <mat-label>Ask NovaGem anything...</mat-label>
+      <textarea matInput
+                #chatInput
+                cdkTextareaAutosize
+                #autosize="cdkTextareaAutosize"
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+                [(ngModel)]="currentMessage"
+                (keyup.enter)="sendMessage()"
+                placeholder="Type your message..."></textarea>
+    </mat-form-field>
+    <button mat-icon-button aria-label="Voice input" class="mic-button">
+      <mat-icon>mic</mat-icon>
+    </button>
+    <button mat-fab color="accent" class="send-button" (click)="sendMessage()" [disabled]="!currentMessage?.trim() || isLoading">
+      <mat-icon>send</mat-icon>
+    </button>
+  </div>
+</div>

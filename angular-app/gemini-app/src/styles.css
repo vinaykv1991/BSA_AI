@@ -1,0 +1,64 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Import a highlight.js theme for code syntax highlighting */
+/* Ensure highlight.js is installed (it's a peer dependency of ngx-highlightjs) */
+/* Path might vary based on your node_modules structure or if using a specific version */
+@import 'highlight.js/styles/atom-one-dark.css';
+/* Or any other theme e.g., github.css, vs2015.css, etc. */
+/* For dark theme, atom-one-dark or vs2015 are good. For light, github or default. */
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif; /* Default font stack */
+  background-color: #F0F0F0; /* Light Grey neutral for body background (light theme) */
+  color: #333333; /* Default text color for light theme */
+}
+
+/* Dark theme specific global styles */
+body.novagem-dark-theme { /* Apply to body when dark theme is active */
+  background-color: #333333; /* Dark Grey neutral for body background (dark theme) */
+  color: #ffffff; /* Default text color for dark theme */
+}
+
+/* Ensure components within dark theme adapt text color if not handled by mat.all-component-themes */
+/* These are more specific overrides that might be needed if components don't inherit correctly. */
+/* Start with fewer overrides and add as needed. */
+
+/* Example for Material Card content in dark theme if it doesn't inherit properly */
+.novagem-dark-theme .mat-mdc-card-content {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Example for general text if mat-typography isn't enough */
+.novagem-dark-theme .mat-typography p,
+.novagem-dark-theme .mat-typography span,
+.novagem-dark-theme .mat-typography div {
+   /* color: #ffffff; */ /* This might be too broad, use with caution */
+}
+
+/* The ng add command for Angular Material should have prompted to add Roboto font.
+   If not, ensure it's linked in index.html or installed via npm.
+   Example for index.html:
+   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+*/
+
+/* Ensure highlighted code background matches the theme if necessary */
+.novagem-dark-theme pre code.hljs {
+  background: #282c34; /* atom-one-dark background */
+  color: #abb2bf; /* atom-one-dark text color */
+}
+
+/* Light theme adjustments for code blocks if default hljs theme is dark */
+/* Or choose a light hljs theme and switch it with dark theme body class */
+/* For now, atom-one-dark is imported, which is a dark theme for code. */
+/* If you want code blocks to have a light theme when the body is light: */
+/* body:not(.novagem-dark-theme) pre code.hljs { */
+/*   background: #f8f8f8; */
+/*   color: #333; */
+/* } */
+```

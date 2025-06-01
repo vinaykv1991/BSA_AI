@@ -1,0 +1,105 @@
+// Import theme variables if needed for direct access, though mat-toolbar color="primary" handles it.
+// @use '../../custom-theme' as theme; // Path to your theme file
+
+:host {
+  display: block;
+  height: 100%; // Make the component itself take full height if it's a top-level routed component
+}
+
+.chat-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--mat-app-background-color); // Use Material theme background
+}
+
+.chat-header {
+  // color="primary" on mat-toolbar should apply the primary color from the theme.
+  position: sticky; // Makes header stick to top
+  top: 0;
+  z-index: 1001;
+}
+
+.chat-title {
+  margin-left: 16px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.chat-area {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px; // Space between messages
+
+  // Styling for when the chat area is empty (showing welcome message)
+  &.empty {
+    align-items: center; // Center welcome message horizontally
+    justify-content: center; // Center welcome message vertically
+    // Remove gap if not desired for centered content
+    gap: 0;
+    // The welcome message component itself handles its internal padding and max-width
+  }
+}
+
+.input-area {
+  display: flex;
+  align-items: center;
+  padding: 8px 16px;
+  border-top: 1px solid var(--mat-divider-color);
+  background-color: var(--mat-app-background-color);
+  gap: 8px;
+
+  position: sticky;
+  bottom: 0;
+  z-index: 1001;
+}
+
+.chat-input-field {
+  flex-grow: 1;
+  margin: 0;
+}
+
+// Override default mat-form-field outline padding to make it more compact
+// These ::ng-deep might be too aggressive or break with Material updates. Use with caution.
+// Consider adjusting through global theme settings if possible.
+::ng-deep .chat-input-field .mdc-notched-outline__leading,
+::ng-deep .chat-input-field .mdc-notched-outline__trailing {
+  // border-width: 0 !important;
+}
+::ng-deep .chat-input-field .mat-mdc-form-field-flex {
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+::ng-deep .chat-input-field .mat-mdc-text-area-with-resize {
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+}
+
+
+.attach-button, .mic-button {
+  // Standard icon button styling
+}
+
+.send-button {
+  // mat-fab and color="accent" should style this.
+}
+
+// Styles for scrolling behavior (optional)
+// .chat-area::-webkit-scrollbar {
+//   width: 8px;
+// }
+// .chat-area::-webkit-scrollbar-thumb {
+//   background-color: rgba(0,0,0,.2);
+//   border-radius: 4px;
+// }
+// .chat-area::-webkit-scrollbar-track {
+//   background-color: transparent;
+// }
+```

@@ -1,0 +1,82 @@
+@use '@angular/material' as mat;
+// Assuming your custom theme file is accessible for palette colors
+// If not, use hardcoded values or ensure theme variables are globally available.
+// @use '../../custom-theme' as theme; // Path to your theme file
+
+:host {
+  display: block; // Ensures the component itself takes up the space defined by its parent/router
+}
+
+.splash-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  width: 100vw;
+  // background-color: mat.get-color-from-palette(theme.$novagem-primary-palette, 500); // Deep Teal
+  background-color: #008080; // Deep Teal (Hardcoded for simplicity if theme file access is tricky here)
+  color: white; // Default text color on primary background
+  overflow: hidden; // Prevents scrollbars if content accidentally overflows
+  position: fixed; // Ensure it covers everything, even if other global styles exist
+  top: 0;
+  left: 0;
+  z-index: 9999; // High z-index to be on top
+}
+
+.splash-content {
+  text-align: center;
+  padding: 20px;
+}
+
+.app-logo-placeholder {
+  font-size: 96px; // Large icon
+  width: 96px;
+  height: 96px;
+  margin-bottom: 24px;
+  // color: white; // Icon color
+}
+
+.app-title {
+  font-size: 3.5em; // Large title
+  font-weight: 500; // Medium weight
+  margin-top: 0;
+  margin-bottom: 8px;
+  letter-spacing: 0.02em;
+  // color: white;
+}
+
+.powered-by {
+  font-size: 1.1em;
+  font-weight: 300; // Lighter weight
+  margin-top: 0;
+  margin-bottom: 48px; // Space above progress bar
+  // color: rgba(255, 255, 255, 0.85); // Slightly transparent white
+}
+
+.splash-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  // Customize progress bar color if needed
+  // For indeterminate, the color comes from the theme's primary or accent.
+  // If using a specific color for the progress bar:
+  // --mdc-linear-progress-active-indicator-color: mat.get-color-from-palette(theme.$novagem-accent-palette, 400); // Bright Coral
+  // This might require ::ng-deep or more specific theming if the above CSS var doesn't work directly.
+}
+
+// Example of how to theme the progress bar directly if CSS variables are not enough
+// This approach is more robust for Material components.
+// ::ng-deep .splash-progress {
+//   .mdc-linear-progress__bar-inner {
+//     border-color: mat.get-color-from-palette(theme.$novagem-accent-palette, 400) !important; // Bright Coral
+//   }
+// }
+
+// If the theme is correctly applied (primary is Deep Teal, accent is Bright Coral),
+// setting color="accent" or color="primary" on mat-progress-bar might work,
+// but indeterminate often defaults to primary.
+// For now, relying on default theming for the progress bar.
+```
