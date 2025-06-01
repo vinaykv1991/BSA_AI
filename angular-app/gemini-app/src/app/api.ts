@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
-import { environment } from '../../environments/environment'; // Import environment
+//import { environment } from '../../environments/environment'; // Import environment
 
 export interface ApiResponse {
   answer?: string;
@@ -14,7 +14,7 @@ export interface ApiResponse {
 })
 export class ApiService {
   // Construct the full API URL for the /ask endpoint
-  private askEndpointUrl = `${environment.apiUrl}/api/ask`;
+  private askEndpointUrl = `http:localhost:5000/api/ask`;
 
   private answerSubject = new BehaviorSubject<string | null>(null);
   answer$ = this.answerSubject.asObservable();
