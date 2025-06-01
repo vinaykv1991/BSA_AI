@@ -7,7 +7,9 @@ import { routes } from './app.routes';
 
 // ngx-highlightjs configuration
 import { HIGHLIGHT_OPTIONS } from 'ngx-highlightjs';
+import { provideHttpClient, withFetch } from '@angular/common/http'; // Import provideHttpClient and withFetch
 
+import { routes } from './app.routes';
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
