@@ -5,7 +5,7 @@
   #    - The `|` is used as a delimiter for sed to avoid issues if $NG_APP_API_URL contains slashes.
   #    - This assumes NG_APP_API_URL is set in Netlify's build environment.
   # 3. ng build ...: Builds the Angular application for production.
-  command = "npm install && sed -i 's|YOUR_RENDER_BACKEND_URL_HERE|'$NG_APP_API_URL'|g' src/environments/environment.prod.ts && ng build --configuration production"
+  command = "npm install && sed -i 's|https://bsa-ai.onrender.com|'$NG_APP_API_URL'|g' src/environments/environment.prod.ts && ng build --configuration production"
   publish = "dist/gemini-app/browser" # This path should match angular.json's outputPath for production build
 
   [build.environment] # This section is for build-time environment variables available to the build command.
