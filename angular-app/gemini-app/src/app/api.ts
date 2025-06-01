@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment'; // Import environment
 
 export interface ApiResponse {
   answer?: string;
@@ -12,7 +13,8 @@ export interface ApiResponse {
   providedIn: 'root'
 })
 export class ApiService {
-  private flaskApiUrl = 'http://localhost:5000/api/ask'; // Flask backend URL
+  // Construct the full API URL for the /ask endpoint
+  private askEndpointUrl = `${environment.apiUrl}/api/ask`;
 
   private answerSubject = new BehaviorSubject<string | null>(null);
   answer$ = this.answerSubject.asObservable();
@@ -23,14 +25,17 @@ export class ApiService {
   private loadingSubject = new BehaviorSubject<boolean>(false);
   loading$ = this.loadingSubject.asObservable();
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    console.log('API Service initialized. API URL:', environment.apiUrl);
+    console.log('Full /api/ask endpoint URL:', this.askEndpointUrl);
+  }
 
   getAnswer(question: string): void {
     this.loadingSubject.next(true);
     this.answerSubject.next(null);
     this.errorSubject.next(null);
 
-    this.http.post<ApiResponse>(this.flaskApiUrl, { question })
+    this.http.post<ApiResponse>(this.askEndpointUrl, { question }) // Use the constructed URL
       .pipe(
         tap((response: ApiResponse) => {
           if (response.answer) {
@@ -38,34 +43,31 @@ export class ApiService {
           } else if (response.error) {
             this.errorSubject.next(response.error);
           }
-          // Consider logging if response is successful but structure is unexpected
           this.loadingSubject.next(false);
         }),
         catchError((error: HttpErrorResponse) => {
           let userFriendlyMessage = 'An unexpected error occurred. Please try again.';
           if (error.error instanceof ErrorEvent) {
-            // A client-side or network error occurred.
             userFriendlyMessage = 'Could not connect to the server. Please check your network connection.';
             console.error('Client-side error:', error.error.message);
           } else {
-            // The backend returned an unsuccessful response code.
             console.error(`Backend returned code ${error.status}, body was: `, error.error);
-            const serverError = error.error?.error; // Assuming backend sends { "error": "message" }
+            const serverError = error.error?.error;
 
             switch (error.status) {
-              case 400: // Bad Request
+              case 400:
                 userFriendlyMessage = serverError || 'The request was invalid. Please check your input.';
                 break;
-              case 401: // Unauthorized
+              case 401:
                 userFriendlyMessage = serverError || 'You are not authorized. Please check your API key.';
                 break;
-              case 403: // Forbidden
+              case 403:
                 userFriendlyMessage = serverError || 'Access denied.';
                 break;
-              case 500: // Internal Server Error
+              case 500:
                 userFriendlyMessage = serverError || 'A server error occurred. Please try again later.';
                 break;
-              case 503: // Service Unavailable
+              case 503:
                 userFriendlyMessage = serverError || 'The service is temporarily unavailable. Please try again later.';
                 break;
               default:
@@ -80,7 +82,6 @@ export class ApiService {
       .subscribe();
   }
 
-  // Method to allow components to manually trigger a clear of errors/answers if needed
   clearState(): void {
     this.answerSubject.next(null);
     this.errorSubject.next(null);

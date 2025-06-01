@@ -1,0 +1,19 @@
+[build]
+  # Command breakdown:
+  # 1. npm install: Installs dependencies if any are missing or need update.
+  # 2. sed ...: Replaces the placeholder URL in environment.prod.ts with the actual API URL from Netlify's NG_APP_API_URL env var.
+  #    - The `|` is used as a delimiter for sed to avoid issues if $NG_APP_API_URL contains slashes.
+  #    - This assumes NG_APP_API_URL is set in Netlify's build environment.
+  # 3. ng build ...: Builds the Angular application for production.
+  command = "npm install && sed -i 's|YOUR_RENDER_BACKEND_URL_HERE|'$NG_APP_API_URL'|g' src/environments/environment.prod.ts && ng build --configuration production"
+  publish = "dist/gemini-app/browser" # This path should match angular.json's outputPath for production build
+
+  [build.environment] # This section is for build-time environment variables available to the build command.
+    NODE_VERSION = "20"
+    # NG_APP_API_URL = "https://default-url-if-not-set-in-netlify-ui.com" # Optional: default if not set in UI, but UI is preferred for sensitive URLs.
+                                                                      # For this setup, we expect NG_APP_API_URL to be set in Netlify UI.
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200 # Necessary for single-page applications (SPAs) like Angular

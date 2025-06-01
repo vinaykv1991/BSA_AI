@@ -1,0 +1,4 @@
+Flask>=3.0.0 # Updated to a more recent common version
+Flask-CORS>=6.0.0
+google-generativeai>=0.8.0 # Adjusted slightly based on install logs
+gunicorn>=20.0.0
