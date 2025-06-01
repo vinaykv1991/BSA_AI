@@ -26,7 +26,7 @@ export class ApiService {
   loading$ = this.loadingSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    console.log('API Service initialized. API URL:', environment.apiUrl);
+    console.log('API Service initialized. API URL: http:localhost:5000/api');
     console.log('Full /api/ask endpoint URL:', this.askEndpointUrl);
   }
 
