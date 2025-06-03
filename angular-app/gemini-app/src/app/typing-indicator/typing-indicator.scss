@@ -1,0 +1,89 @@
+// Import chat-message styles to reuse bubble and avatar definitions
+// This assumes chat-message.scss is structured to allow reuse of its mixins or classes.
+// For simplicity, we'll duplicate some styles here, but in a larger app, consider a shared SCSS module.
+@use '../chat-message/chat-message.scss' as chat-message-styles; // Not a direct import, but for reference
+
+// :host can leverage styles from chat-message.scss if they are global enough or if we import them.
+// For now, let's define explicitly, ensuring consistency.
+
+.typing-indicator-bubble {
+  display: flex;
+  gap: 12px;
+  padding: 8px 0;
+  max-width: 90%;
+  align-items: flex-start;
+
+  &.ai-message { // Copied from chat-message for AI styling
+    margin-right: auto;
+    flex-direction: row;
+  }
+
+  .message-content-wrapper { // Copied
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .message-content { // Copied and adapted
+    background-color: #E8E8E8;
+    color: #000000;
+    border-radius: 16px 16px 16px 4px;
+    padding: 10px 14px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    display: flex; // For aligning text and ellipsis
+    align-items: baseline; // Align text and dots along their baseline
+  }
+}
+
+.avatar-container { // Copied
+  padding-top: 4px;
+}
+
+.avatar-placeholder { // Copied
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+
+  &.ai-avatar mat-icon { // Copied
+    font-size: 24px;
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.typing-text {
+  margin-right: 2px; // Space before ellipsis
+}
+
+.ellipsis {
+  display: inline-block;
+  span {
+    opacity: 0;
+    animation: ellipsis-animation 1.4s infinite;
+    &:nth-child(1) { animation-delay: 0.0s; }
+    &:nth-child(2) { animation-delay: 0.2s; }
+    &:nth-child(3) { animation-delay: 0.4s; }
+  }
+}
+
+@keyframes ellipsis-animation {
+  0% { opacity: 0; transform: scale(0.8); }
+  20% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.8); }
+}
+
+// Dark theme adjustments
+:host-context(body.novagem-dark-theme) .typing-indicator-bubble {
+  .message-content {
+    // Using a value from chat-message.scss for consistency: mat.get-color-from-palette(mat.$grey-palette, 700)
+    // Since direct @use might be complex for the tool, hardcoding a similar dark grey.
+    background-color: #424242; // Darker grey, consistent with AI messages in dark theme
+    color: #ffffff;
+  }
+}
+```

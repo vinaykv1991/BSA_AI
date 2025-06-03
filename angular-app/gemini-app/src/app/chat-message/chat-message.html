@@ -1,0 +1,26 @@
+<div class="message-bubble" [ngClass]="{'user-message': message.type === 'user', 'ai-message': message.type === 'ai'}">
+  <div class="avatar-container">
+    <div class="avatar-placeholder" [ngClass]="{'user-avatar': message.type === 'user', 'ai-avatar': message.type === 'ai'}">
+      <mat-icon>{{ message.type === 'user' ? 'person_outline' : 'auto_awesome' }}</mat-icon>
+    </div>
+  </div>
+  <div class="message-content-wrapper">
+    <div class="message-content">
+      <div class="text-content" [innerHTML]="getProcessedText()"></div>
+      <div *ngIf="message.code" class="code-block-container">
+        <button mat-icon-button (click)="copyCode()" class="copy-code-button" aria-label="Copy code">
+          <mat-icon>content_copy</mat-icon>
+        </button>
+        <pre><code [highlight]="message.code" class="code-highlight"></code></pre>
+      </div>
+      <div class="timestamp">{{ message.timestamp | date:'shortTime' }}</div>
+    </div>
+    <div *ngIf="message.type === 'ai'" class="interaction-icons">
+      <button mat-icon-button aria-label="Copy response" (click)="copyResponseText()"><mat-icon>content_copy</mat-icon></button>
+      <button mat-icon-button aria-label="Share response (placeholder)"><mat-icon>share</mat-icon></button>
+      <button mat-icon-button aria-label="Good response (placeholder)"><mat-icon>thumb_up_off_alt</mat-icon></button>
+      <button mat-icon-button aria-label="Bad response (placeholder)"><mat-icon>thumb_down_off_alt</mat-icon></button>
+      <button mat-icon-button aria-label="Regenerate response (placeholder)"><mat-icon>refresh</mat-icon></button>
+    </div>
+  </div>
+</div>

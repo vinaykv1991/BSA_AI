@@ -1,0 +1,90 @@
+@use '@angular/material' as mat;
+
+// Includes the default Material Design core styles (structural styles, ripples, etc.).
+@include mat.core();
+
+// Define NovaGem color palettes
+// Primary: Deep Teal (#008080)
+$novagem-primary-palette: (
+  50: #e0f2f2,
+  100: #b3dfdf,
+  200: #80cbcb,
+  300: #4daaaa, // Lighter shade for primary
+  400: #269393,
+  500: #008080, // Deep Teal - Default primary
+  600: #007373,
+  700: #006060, // Darker shade for primary
+  800: #004d4d,
+  900: #002e2e,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+  )
+);
+
+// Accent: Bright Coral (#FF7F50)
+$novagem-accent-palette: (
+  50: #ffece6,
+  100: #ffd1bf,
+  200: #ffb399, // Lighter shade for accent
+  300: #ff9473,
+  400: #ff7f50, // Bright Coral - Default accent
+  500: #ff6a3e, // Darker shade for accent
+  600: #f56039,
+  700: #e65332,
+  800: #d6482c,
+  900: #bf3a22,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+  )
+);
+
+// Warn palette (using Material's red palette)
+$novagem-warn-palette: mat.$red-palette;
+
+// Define the NovaGem light theme
+$novagem-light-theme: mat.define-light-theme((
+  color: (
+    primary: mat.define-palette($novagem-primary-palette, 500, 300, 700),
+    accent: mat.define-palette($novagem-accent-palette, 400, 200, 500),
+    warn: $novagem-warn-palette,
+  ),
+  typography: mat.define-typography-config(), // Using default typography for now
+  density: 0,
+));
+
+// Define the NovaGem dark theme
+$novagem-dark-theme: mat.define-dark-theme((
+  color: (
+    primary: mat.define-palette($novagem-primary-palette, 500, 300, 700),
+    accent: mat.define-palette($novagem-accent-palette, 400, 200, 500),
+    warn: $novagem-warn-palette,
+  ),
+  typography: mat.define-typography-config(), // Using default typography for now
+  density: 0,
+));
+
+// Apply the light theme by default to all Angular Material components.
+@include mat.all-component-themes($novagem-light-theme);
+
+// Apply the dark theme colors when the .novagem-dark-theme class is present on a parent element.
+.novagem-dark-theme {
+  @include mat.all-component-colors($novagem-dark-theme);
+}

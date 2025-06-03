@@ -1,0 +1,69 @@
+<div class="settings-container">
+  <mat-toolbar color="primary" class="settings-header">
+    <button mat-icon-button aria-label="Back to chat" (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <span class="settings-title">Settings</span>
+  </mat-toolbar>
+
+  <div class="settings-content">
+    <mat-list>
+      <h3 matSubheader>Appearance</h3>
+      <mat-list-item>
+        <mat-icon matListItemIcon>brightness_medium</mat-icon>
+        <div matListItemTitle>Theme</div>
+        <div matListItemMeta class="settings-meta-control">
+          <mat-button-toggle-group name="theme" aria-label="Select theme" [(ngModel)]="selectedTheme" (ngModelChange)="onThemeChange($event)">
+            <mat-button-toggle value="light">Light</mat-button-toggle>
+            <mat-button-toggle value="dark">Dark</mat-button-toggle>
+            <mat-button-toggle value="system">System</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </mat-list-item>
+      <mat-list-item>
+        <mat-icon matListItemIcon>format_size</mat-icon>
+        <div matListItemTitle>Text Size</div>
+        <div matListItemMeta class="settings-meta-control">
+          <mat-select placeholder="Medium" [(ngModel)]="selectedTextSize" (ngModelChange)="onTextSizeChange($event)">
+            <mat-option value="small">Small</mat-option>
+            <mat-option value="medium">Medium</mat-option>
+            <mat-option value="large">Large</mat-option>
+          </mat-select>
+        </div>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <h3 matSubheader>Conversation</h3>
+      <mat-list-item button (click)="confirmClearChatHistory()">
+        <mat-icon matListItemIcon>delete_sweep</mat-icon>
+        <div matListItemTitle>Clear All Chat History</div>
+      </mat-list-item>
+
+      <mat-divider></mat-divider>
+
+      <h3 matSubheader>About</h3>
+      <mat-list-item>
+        <mat-icon matListItemIcon>info_outline</mat-icon>
+        <div matListItemTitle>About NovaGem</div>
+        <div matListItemMeta><span class="app-version">Version 1.0.0</span></div>
+      </mat-list-item>
+      <mat-list-item button (click)="openLink('https://example.com/privacy')"> <!-- Placeholder URL -->
+        <mat-icon matListItemIcon>gavel</mat-icon>
+        <div matListItemTitle>Privacy Policy</div>
+      </mat-list-item>
+      <mat-list-item button (click)="openLink('https://example.com/terms')"> <!-- Placeholder URL -->
+        <mat-icon matListItemIcon>description</mat-icon>
+        <div matListItemTitle>Terms of Service</div>
+      </mat-list-item>
+      <mat-list-item button (click)="openLink('mailto:feedback@example.com')"> <!-- Placeholder Email -->
+        <mat-icon matListItemIcon>feedback</mat-icon>
+        <div matListItemTitle>Send App Feedback</div>
+      </mat-list-item>
+       <mat-list-item>
+        <mat-icon matListItemIcon>api</mat-icon>
+        <div matListItemTitle>Powered by Gemini</div>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>
