@@ -14,7 +14,7 @@ export interface ApiResponse {
 })
 export class ApiService {
   // Construct the full API URL for the /ask endpoint
-  private askEndpointUrl = `https://bsa-ai.onrender.com//api/ask`;
+  private askEndpointUrl = `https://bsa-ai.onrender.com/api/ask`;
 
   private answerSubject = new BehaviorSubject<string | null>(null);
   answer$ = this.answerSubject.asObservable();
@@ -26,7 +26,7 @@ export class ApiService {
   loading$ = this.loadingSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    console.log('API Service initialized. API URL: https://bsa-ai.onrender.com//api');
+    console.log('API Service initialized. API URL: https://bsa-ai.onrender.com');
     console.log('Full /api/ask endpoint URL:', this.askEndpointUrl);
   }
 
