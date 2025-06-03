@@ -15,7 +15,7 @@ services:
       - key: FLASK_ENV # FLASK_APP=app is also common, but gunicorn app:app handles it.
         value: production
       - key: FRONTEND_URL # Will be Netlify URL
-        value: "YOUR_NETLIFY_APP_URL_HERE" # e.g., https://your-angular-app-name.netlify.app
+        value: "https://chatgeneral.netlify.app" # e.g., https://your-angular-app-name.netlify.app
       # Gunicorn worker configuration (optional, but good for performance)
       # - key: WEB_CONCURRENCY
       #   value: "3" # Number of Gunicorn workers, adjust based on plan/memory
