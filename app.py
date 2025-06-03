@@ -64,7 +64,7 @@ def health_check():
 
 
 # --- API Routes ---
-@app.route('/api/ask', methods=['POST'])
+@app.route('/api/ask', methods=['GET', 'POST'])
 def ask_question():
     # (The rest of the /api/ask route remains the same as the previous version)
     logging.error("got call /api/ask")
