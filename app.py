@@ -67,14 +67,17 @@ def health_check():
 @app.route('/api/ask', methods=['POST'])
 def ask_question():
     # (The rest of the /api/ask route remains the same as the previous version)
+    logging.error("got call /api/ask")
     if not gemini_model:
         logging.error("Attempted to call /api/ask but Gemini model is not available.")
         return jsonify({"error": "AI service is not configured or temporarily unavailable. Please contact support."}), 503
 
+    logging.error("Gemini available")
     if not request.is_json:
         logging.warning("Request to /api/ask was not JSON.")
         return jsonify({"error": "Request must be JSON"}), 415
 
+    logging.error("request is json")
     data = request.get_json()
     question = data.get('question')
 
