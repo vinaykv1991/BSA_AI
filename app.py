@@ -57,7 +57,7 @@ if not API_KEY:
 if API_KEY and API_KEY != 'AIzaSyA5B-rRVPvaMcrkL3CUiVqwiSuS6LRKNOU':
     try:
         genai.configure(api_key=API_KEY)
-        gemini_model = genai.GenerativeModel('gemini-pro')
+        gemini_model = genai.GenerativeModel('gemini-1.5-pro-002')
         logging.info("Gemini API configured and model 'gemini-pro' loaded successfully.")
     except Exception as e:
         logging.exception(f"Critical error during Gemini API configuration or model initialization: {e}")
