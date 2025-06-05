@@ -17,21 +17,34 @@ if not os.path.exists(ANGULAR_DIST_DIR):
 app = Flask(__name__, static_folder=ANGULAR_DIST_DIR, static_url_path='/')
 
 # CORS configuration
-frontend_url = os.environ.get('FRONTEND_URL')
-# Fallback to allow localhost for development if FRONTEND_URL is not set
-# and a wildcard for other cases if no specific frontend_url is provided (though less secure)
-# For Render, FRONTEND_URL should be set in the environment.
+frontend_url_env = os.environ.get('FRONTEND_URL')
+frontend_url = frontend_url_env.rstrip('/') if frontend_url_env else None # Strip trailing slash
+
 cors_origins = []
 if frontend_url:
     cors_origins.append(frontend_url)
+    # Optional: Add localhost for local development against a deployed backend,
+    # but generally FRONTEND_URL should be the primary source for deployed environments.
+    # For local dev, Angular proxy or running Flask with dev FRONTEND_URL is better.
+    # cors_origins.append("http://localhost:4200") # If you want to allow local dev against this deployed backend
 else:
-    logging.warning("FRONTEND_URL environment variable not set. CORS might not be optimally configured for production.")
-    cors_origins.append("http://localhost:4200") # Default for local Angular dev
-    # Consider if a broader fallback like "*" is needed and its security implications
-    # For now, we'll stick to localhost if FRONTEND_URL is not set.
+    logging.warning("FRONTEND_URL environment variable not set. Defaulting CORS to allow http://localhost:4200 for local development.")
+    cors_origins.append("http://localhost:4200")
 
-CORS(app, resources={r"/api/*": {"origins": cors_origins}})
-logging.info(f"CORS configured for origins: {cors_origins}")
+if not cors_origins: # Should not happen with the logic above, but as a safeguard
+    logging.error("CRITICAL: No origins configured for CORS. This will block all cross-origin requests. Defaulting to localhost.")
+    cors_origins = ["http://localhost:4200"]
+
+
+CORS(
+    app,
+    resources={r"/api/*": {"origins": cors_origins}},
+    methods=["GET", "POST", "OPTIONS", "PUT", "DELETE", "PATCH"], # Explicitly list allowed methods
+    # OPTIONS is usually handled automatically by Flask-CORS, but explicit can be clearer.
+    headers=["Content-Type", "Authorization"], # Explicitly list allowed headers
+    supports_credentials=True # Set to True if your frontend sends credentials (cookies, auth headers)
+)
+logging.info(f"CORS configured for origins: {cors_origins} with explicit methods and headers.")
 
 
 # --- Gemini API Configuration ---
@@ -64,7 +77,7 @@ def health_check():
 
 
 # --- API Routes ---
-@app.route('/api/ask', methods=['GET', 'POST'])
+@app.route('/api/ask', methods=['POST'])
 def ask_question():
     # (The rest of the /api/ask route remains the same as the previous version)
     logging.error("got call /api/ask")
