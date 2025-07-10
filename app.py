@@ -52,9 +52,8 @@ API_KEY = os.getenv('GEMINI_API_KEY')
 gemini_model = None
 if not API_KEY:
     logging.warning("GEMINI_API_KEY environment variable not set. Using placeholder (will likely fail).")
-    API_KEY = 'AIzaSyA5B-rRVPvaMcrkL3CUiVqwiSuS6LRKNOU' # Placeholder
 
-if API_KEY and API_KEY != 'AIzaSyA5B-rRVPvaMcrkL3CUiVqwiSuS6LRKNOU':
+if API_KEY:
     model_name = 'gemini-2.0-flash'
     logging.info(f"Attempting to configure Gemini API and initialize model: {model_name}")
     try:
