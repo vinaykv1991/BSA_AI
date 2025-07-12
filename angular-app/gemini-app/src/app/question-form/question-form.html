@@ -1,6 +1,0 @@
-<div class="question-form-container">
-  <textarea [(ngModel)]="questionText" placeholder="Ask your question here..." rows="3" [disabled]="isLoading"></textarea>
-  <button (click)="submitQuestion()" [disabled]="isLoading || !questionText.trim()">
-    {{ isLoading ? 'Asking...' : 'Ask Gemini' }}
-  </button>
-</div>
