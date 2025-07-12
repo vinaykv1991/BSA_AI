@@ -1,0 +1,32 @@
+/* Global Styles for NovaGem */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+:root {
+  --nova-deep-teal: #008080;
+  --nova-bright-coral: #FF7F50;
+  --nova-light-teal-user-bubble: #A0D2DB;
+  --nova-light-grey-ai-bubble: #E8E8E8;
+  --nova-light-grey-bg: #F0F0F0;
+  --nova-dark-grey-text: #333333;
+  --nova-medium-grey-text: #555555;
+  --nova-white: #FFFFFF;
+  --nova-code-bg: #2d2d2d;
+  --nova-code-text: #cccccc;
+  --font-family-sans-serif: 'Roboto', sans-serif;
+  --body-bg: var(--nova-light-grey-bg);
+  --body-color: var(--nova-dark-grey-text);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: var(--font-family-sans-serif);
+  background-color: var(--body-bg);
+  color: var(--body-color);
+  line-height: 1.6;
+  font-size: 16px;
+  overscroll-behavior-y: contain;
+}
+a { color: var(--nova-deep-teal); text-decoration: none; }
+a:hover { text-decoration: underline; }
+button { font-family: var(--font-family-sans-serif); cursor: pointer; }
