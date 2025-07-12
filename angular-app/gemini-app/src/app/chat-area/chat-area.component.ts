@@ -90,6 +90,11 @@ export class ChatAreaComponent implements OnInit, AfterViewChecked {
     this.scrollToBottom();
   }
 
+  // trackBy function for ngFor performance
+  public trackByMessageId(index: number, message: Message): string {
+    return message.id;
+  }
+
   handleFeedback(feedback: { messageId: string, type: 'positive' | 'negative' }): void {
     console.log(`Feedback received in ChatAreaComponent for message ${feedback.messageId}: ${feedback.type}`);
     // Here you would send this data to your analytics or backend service

@@ -11,7 +11,7 @@
   </div>
 
   <!-- Main Message Bubble -->
-  <div class="message-bubble">
+  <div class="message-bubble" [ngClass]="{'error': message.isError}">
     <!-- Thinking Indicator -->
     <div *ngIf="message.isThinking" class="thinking-indicator">
       <span></span><span></span><span></span>

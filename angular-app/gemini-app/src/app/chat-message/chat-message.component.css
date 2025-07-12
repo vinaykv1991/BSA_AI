@@ -81,11 +81,7 @@
   font-size: 0.9em;
 }
 
-.message-wrapper.system .message-bubble p {
-  margin: 0;
-}
-
-.message-wrapper.system .message-bubble[class.error] {
+.message-wrapper.system .message-bubble.error {
   color: var(--nova-error-color);
   font-weight: 500;
 }
