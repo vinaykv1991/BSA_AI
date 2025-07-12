@@ -1,1 +1,85 @@
-/* You can add global styles to this file, and also import other style files */
+/* Global Styles for NovaGem */
+
+/* Import a font (Example: Roboto from Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
+
+:root {
+  --nova-deep-teal: #008080;
+  --nova-bright-coral: #FF7F50;
+  --nova-light-teal-user-bubble: #A0D2DB;
+  --nova-light-grey-ai-bubble: #E8E8E8;
+  --nova-light-grey-bg: #F0F0F0; /* General app background */
+  --nova-dark-grey-text: #333333;
+  --nova-medium-grey-text: #555555;
+  --nova-light-grey-text: #777777;
+  --nova-white: #FFFFFF;
+  --nova-code-bg: #2d2d2d;
+  --nova-code-text: #cccccc;
+  --nova-error-color: #D32F2F;
+  --nova-success-color: #388E3C;
+
+  --font-family-sans-serif: 'Roboto', sans-serif; /* Use the imported font */
+
+  --body-bg: var(--nova-light-grey-bg);
+  --body-color: var(--nova-dark-grey-text);
+  --header-bg: var(--nova-deep-teal);
+  --header-text-color: var(--nova-white);
+  --button-primary-bg: var(--nova-bright-coral);
+  --button-primary-text: var(--nova-white);
+}
+
+/* Basic Reset */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-family-sans-serif);
+  background-color: var(--body-bg);
+  color: var(--body-color);
+  line-height: 1.6;
+  font-size: 16px; /* Base font size */
+  overscroll-behavior-y: contain; /* Prevents pull-to-refresh on mobile if not desired */
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
+a {
+  color: var(--nova-deep-teal);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+button {
+  font-family: var(--font-family-sans-serif);
+  cursor: pointer;
+}
+
+/* Utility class for screen reader only content */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}

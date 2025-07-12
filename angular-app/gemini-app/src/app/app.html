@@ -1,14 +1,21 @@
-<div class="container">
-  <header>
-    <h1>Gemini AI Chat</h1>
+<div class="app-container">
+  <header class="app-header">
+    <div class="logo">
+      <!-- Add a logo SVG or image here if you have one -->
+      <span>NovaGem</span>
+    </div>
+    <nav class="header-nav">
+      <!-- Add header navigation icons/buttons here later -->
+      <button class="icon-button" title="New Chat">
+        <!-- Placeholder for New Chat icon -->
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px" fill="#FFFFFF"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H6l-2 2V4h16v12zM11 5h2v6h-2zm0 8h2v2h-2z"/></svg>
+      </button>
+    </nav>
   </header>
-  <main>
-    <app-question-form></app-question-form>
-    <app-answer-display></app-answer-display>
-  </main>
-  <footer>
-    <p>&copy; 2024 Gemini AI App</p>
-  </footer>
-</div>
 
-<router-outlet />
+  <main class="chat-main-content">
+    <app-chat-area></app-chat-area>
+    <app-chat-input (messageSubmit)="handleMessageSubmit($event)"></app-chat-input>
+  </main>
+</div>
+<router-outlet></router-outlet>
