@@ -4,9 +4,10 @@ services:
     env: python
     plan: free # Or your preferred plan
     region: oregon # Optional: specify a region, e.g., oregon or frankfurt
+    rootDir: ./backend # Set the root directory for the backend
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "gunicorn app:app"
-    healthCheckPath: /health # Updated to use the new health check endpoint
+    startCommand: "gunicorn app:app" # gunicorn will look for app.py in the rootDir
+    healthCheckPath: /health
     envVars:
       - key: PYTHON_VERSION
         value: "3.11" # Ensure this Python version is supported by Render

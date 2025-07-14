@@ -9,7 +9,8 @@ from flask_cors import CORS
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # Determine the correct static folder path.
-ANGULAR_DIST_DIR = os.path.join(os.path.dirname(__file__), 'angular-app', 'gemini-app', 'dist', 'gemini-app', 'browser')
+# The path is now relative to the new location of app.py in the backend folder.
+ANGULAR_DIST_DIR = os.path.join(os.path.dirname(__file__), '..', 'angular-app', 'gemini-app', 'dist', 'gemini-app', 'browser')
 
 if not os.path.exists(ANGULAR_DIST_DIR):
     logging.warning(f"Angular distribution directory not found at {ANGULAR_DIST_DIR}. Frontend may not be served.")
