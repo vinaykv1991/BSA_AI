@@ -17,22 +17,24 @@ if not os.path.exists(ANGULAR_DIST_DIR):
 app = Flask(__name__, static_folder=ANGULAR_DIST_DIR, static_url_path='/')
 
 # CORS configuration
-frontend_url_env = os.environ.get('FRONTEND_URL')
-frontend_url = frontend_url_env.rstrip('/') if frontend_url_env else None # Strip trailing slash
-
+# Allows for a comma-separated list of origins in the FRONTEND_URL env var
+frontend_urls_env = os.environ.get('FRONTEND_URL')
 cors_origins = []
-if frontend_url:
-    cors_origins.append(frontend_url)
-    # Optional: Add localhost for local development against a deployed backend,
-    # but generally FRONTEND_URL should be the primary source for deployed environments.
-    # For local dev, Angular proxy or running Flask with dev FRONTEND_URL is better.
-    # cors_origins.append("http://localhost:4200") # If you want to allow local dev against this deployed backend
+
+if frontend_urls_env:
+    # Split the comma-separated string into a list and strip any whitespace
+    urls = [url.strip().rstrip('/') for url in frontend_urls_env.split(',')]
+    cors_origins.extend(urls)
 else:
+    # Fallback for local development if FRONTEND_URL is not set
     logging.warning("FRONTEND_URL environment variable not set. Defaulting CORS to allow http://localhost:4200 for local development.")
     cors_origins.append("http://localhost:4200")
 
-if not cors_origins: # Should not happen with the logic above, but as a safeguard
-    logging.error("CRITICAL: No origins configured for CORS. This will block all cross-origin requests. Defaulting to localhost.")
+# As a safeguard, ensure localhost is present if in development mode (e.g., FLASK_ENV is 'development')
+# This part is optional but can be helpful. For now, we rely on the explicit comma-separated list.
+
+if not cors_origins:
+    logging.error("CRITICAL: No origins configured for CORS. This will block all cross-origin requests. Defaulting to localhost as a last resort.")
     cors_origins = ["http://localhost:4200"]
 
 
