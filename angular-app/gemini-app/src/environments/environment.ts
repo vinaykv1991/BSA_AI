@@ -1,4 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://bsa-ai.onrender.com' // Base URL for local Flask development server
+  // The URL of your local Flask backend server
+  apiUrl: 'http://127.0.0.1:5000'
 };

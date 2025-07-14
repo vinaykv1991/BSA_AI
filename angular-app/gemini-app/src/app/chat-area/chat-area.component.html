@@ -1,0 +1,10 @@
+<div class="chat-area-container" #scrollContainer>
+  <div class="message-list">
+    <app-chat-message
+      *ngFor="let msg of messages; trackBy: trackByMessageId"
+      [message]="msg"
+      (feedback)="handleFeedback($event)"
+      (regenerate)="handleRegenerate($event)">
+    </app-chat-message>
+  </div>
+</div>

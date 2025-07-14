@@ -17,22 +17,24 @@ if not os.path.exists(ANGULAR_DIST_DIR):
 app = Flask(__name__, static_folder=ANGULAR_DIST_DIR, static_url_path='/')
 
 # CORS configuration
-frontend_url_env = os.environ.get('FRONTEND_URL')
-frontend_url = frontend_url_env.rstrip('/') if frontend_url_env else None # Strip trailing slash
-
+# Allows for a comma-separated list of origins in the FRONTEND_URL env var
+frontend_urls_env = os.environ.get('FRONTEND_URL')
 cors_origins = []
-if frontend_url:
-    cors_origins.append(frontend_url)
-    # Optional: Add localhost for local development against a deployed backend,
-    # but generally FRONTEND_URL should be the primary source for deployed environments.
-    # For local dev, Angular proxy or running Flask with dev FRONTEND_URL is better.
-    # cors_origins.append("http://localhost:4200") # If you want to allow local dev against this deployed backend
+
+if frontend_urls_env:
+    # Split the comma-separated string into a list and strip any whitespace
+    urls = [url.strip().rstrip('/') for url in frontend_urls_env.split(',')]
+    cors_origins.extend(urls)
 else:
+    # Fallback for local development if FRONTEND_URL is not set
     logging.warning("FRONTEND_URL environment variable not set. Defaulting CORS to allow http://localhost:4200 for local development.")
     cors_origins.append("http://localhost:4200")
 
-if not cors_origins: # Should not happen with the logic above, but as a safeguard
-    logging.error("CRITICAL: No origins configured for CORS. This will block all cross-origin requests. Defaulting to localhost.")
+# As a safeguard, ensure localhost is present if in development mode (e.g., FLASK_ENV is 'development')
+# This part is optional but can be helpful. For now, we rely on the explicit comma-separated list.
+
+if not cors_origins:
+    logging.error("CRITICAL: No origins configured for CORS. This will block all cross-origin requests. Defaulting to localhost as a last resort.")
     cors_origins = ["http://localhost:4200"]
 
 
@@ -55,14 +57,16 @@ if not API_KEY:
     API_KEY = 'AIzaSyA5B-rRVPvaMcrkL3CUiVqwiSuS6LRKNOU' # Placeholder
 
 if API_KEY and API_KEY != 'AIzaSyA5B-rRVPvaMcrkL3CUiVqwiSuS6LRKNOU':
+    model_name = 'gemini-2.0-flash'
+    logging.info(f"Attempting to configure Gemini API and initialize model: {model_name}")
     try:
         genai.configure(api_key=API_KEY)
-        gemini_model = genai.GenerativeModel('gemini-2.0-flash')
-        logging.info("Gemini API configured and model 'gemini-pro' loaded successfully.")
+        gemini_model = genai.GenerativeModel(model_name)
+        logging.info(f"Gemini API configured and model '{model_name}' loaded successfully.")
     except Exception as e:
-        logging.exception(f"Critical error during Gemini API configuration or model initialization: {e}")
+        logging.exception(f"Critical error during Gemini API configuration or model '{model_name}' initialization: {e}. Please ensure your GEMINI_API_KEY is valid and has permissions for this model.")
 else:
-    logging.error("Gemini API key is not set or is the placeholder. AI service will be unavailable.")
+    logging.error("Gemini API key is not set or is the placeholder. AI service will be unavailable. Please set the GEMINI_API_KEY environment variable in your deployment environment.")
 
 
 # --- Health Check Endpoint ---
@@ -82,8 +86,16 @@ def ask_question():
     # (The rest of the /api/ask route remains the same as the previous version)
     logging.error("got call /api/ask")
     if not gemini_model:
-        logging.error("Attempted to call /api/ask but Gemini model is not available.")
-        return jsonify({"error": "AI service is not configured or temporarily unavailable. Please contact support."}), 503
+        model_name_for_error = 'gemini-2.0-flash' # Ensure this matches the model name used in initialization
+        error_message = (
+            f"AI service is unavailable. The Gemini model ('{model_name_for_error}') could not be initialized. "
+            "Please check the following in your deployment environment (e.g., Render):\n"
+            "1. The `GEMINI_API_KEY` environment variable is correctly set.\n"
+            "2. The API key is valid and has permissions for the model being used.\n"
+            "3. Review the application startup logs for any specific errors from the Gemini API client."
+        )
+        logging.error(f"Attempted to call /api/ask but Gemini model ('{model_name_for_error}') is not available. Detailed check message: {error_message}")
+        return jsonify({"error": error_message}), 503
 
     logging.error("Gemini available")
     if not request.is_json:

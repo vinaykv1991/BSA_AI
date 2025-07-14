@@ -1,0 +1,71 @@
+<div class="message-wrapper" [ngClass]="message.sender">
+
+  <!-- AI/System Avatar -->
+  <div class="avatar-container" *ngIf="message.sender === 'ai' || message.sender === 'system'">
+    <div class="nova-gem-avatar" [class.error-avatar]="message.isError">
+      <!-- Placeholder for NovaGem logo/icon -->
+      <span *ngIf="!message.isError">N</span>
+      <!-- Error Icon -->
+      <span *ngIf="message.isError">!</span>
+    </div>
+  </div>
+
+  <!-- Main Message Bubble -->
+  <div class="message-bubble" [ngClass]="{'error': message.isError}">
+    <!-- Thinking Indicator -->
+    <div *ngIf="message.isThinking" class="thinking-indicator">
+      <span></span><span></span><span></span>
+    </div>
+
+    <!-- Message Content -->
+    <div *ngIf="!message.isThinking" class="message-content">
+      <!-- Display text if it exists and is not just the code itself -->
+      <p *ngIf="message.text && message.text !== message.codeBlock?.code">{{ message.text }}</p>
+
+      <!-- Code Block -->
+      <div *ngIf="message.codeBlock" class="code-block-container">
+        <div class="code-block-header">
+          <span>{{ message.codeBlock.language || 'Code' }}</span>
+          <button (click)="onCopyCode()" class="icon-button copy-code-button" title="Copy code">
+            <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="#FFFFFF"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+          </button>
+        </div>
+        <!-- For syntax highlighting, a library like ngx-highlightjs would be used on the <code> element -->
+        <pre><code>{{ message.codeBlock.code }}</code></pre>
+      </div>
+    </div>
+
+    <!-- Timestamp and Actions for AI messages -->
+    <div *ngIf="!message.isThinking && message.sender === 'ai'" class="footer-container">
+      <div class="timestamp">{{ message.timestamp | date:'shortTime' }}</div>
+      <div class="message-actions">
+        <button *ngIf="message.showCopy !== false" (click)="onCopyText()" class="icon-button" title="Copy response">
+          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M16 1H4c-1.1 0-2 .9-2 2v14h2V3h12V1zm3 4H8c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h11c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 16H8V7h11v14z"/></svg>
+        </button>
+        <button *ngIf="message.showShare !== false" (click)="onShare()" class="icon-button" title="Share response">
+          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.66 1.34 3 3 3s3-1.34 3-3-1.34-3-3-3z"/></svg>
+        </button>
+        <button *ngIf="message.showFeedback !== false" (click)="onFeedback('positive')" class="icon-button" title="Good response">
+          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+        </button>
+        <button *ngIf="message.showFeedback !== false" (click)="onFeedback('negative')" class="icon-button" title="Bad response">
+          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M15 3H6c-.83 0-1.54.5-1.84 1.22l-3.02 7.05c-.09.23-.14.47-.14.73v2c0 1.1.9 2 2 2h6.31l-.95 4.57-.03.32c0 .41.17.79.44 1.06L9.83 23l6.59-6.59c.36-.36.58-.86.58-1.41V5c0-1.1-.9-2-2-2zm4 0v12h4V3h-4z"/></svg>
+        </button>
+        <button *ngIf="message.showRegenerate !== false" (click)="onRegenerate()" class="icon-button" title="Regenerate response">
+          <svg xmlns="http://www.w3.org/2000/svg" height="18px" viewBox="0 0 24 24" width="18px" fill="currentColor"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M17.65 6.35C16.2 4.9 14.21 4 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08c-.82 2.33-3.04 4-5.65 4-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Timestamp for user/system messages -->
+    <div *ngIf="message.sender !== 'ai'" class="timestamp-simple">
+      {{ message.timestamp | date:'shortTime' }}
+    </div>
+  </div>
+
+  <!-- User Avatar (Optional) -->
+  <div class="avatar-container user-avatar-container" *ngIf="message.sender === 'user'">
+    <!-- You could put a user's initial or an image here -->
+    <!-- <span>U</span> -->
+  </div>
+</div>

@@ -1,4 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://bsa-ai.onrender.com' // This will be the base URL of the deployed Render backend
+  // This placeholder will be replaced by the Netlify build command.
+  // The value comes from the NG_APP_API_URL environment variable set in Netlify's UI.
+  apiUrl: 'YOUR_RENDER_BACKEND_URL_HERE'
 };
