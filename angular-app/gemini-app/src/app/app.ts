@@ -12,11 +12,11 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   standalone: true,
   imports: [
     RouterOutlet,
-    HttpClientModule,
+    HttpClientModule, // Import HttpClientModule
     ChatAreaComponent,
     ChatInputComponent
   ],
-  providers: [ApiService],
+  providers: [ApiService], // Provide the service
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
@@ -30,18 +30,21 @@ export class App {
   private thinkingMessageId: string | null = null;
 
   constructor() {
+    // Subscribe to loading state
     this.apiService.loading$.pipe(takeUntilDestroyed()).subscribe(isLoading => {
       if (this.chatInput) {
         this.chatInput.isLoading = isLoading;
       }
     });
 
+    // Subscribe to answer stream
     this.apiService.answer$.pipe(takeUntilDestroyed()).subscribe(answer => {
       if (answer && this.thinkingMessageId) {
         this.updateAiMessage(answer);
       }
     });
 
+    // Subscribe to error stream
     this.apiService.error$.pipe(takeUntilDestroyed()).subscribe(error => {
       if (error && this.thinkingMessageId) {
         this.updateAiMessage(error, true);
@@ -50,6 +53,7 @@ export class App {
   }
 
   handleMessageSubmit(messageText: string): void {
+    // 1. Add user's message
     this.chatArea.addMessage({
       id: self.crypto.randomUUID(),
       sender: 'user',
@@ -57,6 +61,7 @@ export class App {
       timestamp: new Date()
     });
 
+    // 2. Add a "thinking" message and store its ID
     const thinkingMessage: Message = {
       id: self.crypto.randomUUID(),
       sender: 'ai',
@@ -67,6 +72,7 @@ export class App {
     this.thinkingMessageId = thinkingMessage.id;
     this.chatArea.addMessage(thinkingMessage);
 
+    // 3. Call the real API
     this.apiService.getAnswer(messageText);
   }
 
@@ -77,7 +83,6 @@ export class App {
 
     const thinkingIndex = this.chatArea.messages.findIndex(m => m.id === targetId);
     if (thinkingIndex !== -1) {
-      // Update the message in place
       this.chatArea.messages[thinkingIndex] = {
         ...this.chatArea.messages[thinkingIndex],
         text: text,
@@ -94,6 +99,6 @@ export class App {
     // Manually trigger change detection to ensure the UI updates
     this.ref.detectChanges();
 
-    this.thinkingMessageId = null;
+    this.thinkingMessageId = null; // Reset for the next message
   }
 }
